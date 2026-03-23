@@ -1,0 +1,34 @@
+import std::math;
+
+assert(math.clamp(5, 0, 10) == 5, "clamp should keep in-range values");
+assert(math.clamp(-3, 0, 10) == 0, "clamp should cap low values at min");
+assert(math.clamp(15, 0, 10) == 10, "clamp should cap high values at max");
+
+assert(math.sign(10) == 1, "sign should return 1 for positive values");
+assert(math.sign(-2) == -1, "sign should return -1 for negative values");
+assert(math.sign(0) == 0, "sign should return 0 for zero");
+
+assert(math.floor(3.8) == 3, "floor should round positive values down");
+assert(math.floor(-3.2) == -4, "floor should round negative values down");
+assert(math.ceil(3.2) == 4, "ceil should round positive values up");
+assert(math.ceil(-3.8) == -3, "ceil should round negative values up");
+assert(math.round(3.49) == 3, "round should round below half down");
+assert(math.round(3.5) == 4, "round should round half up");
+assert(math.round(-3.5) == -4, "round should round negative half away from zero");
+
+var pi = math.PI;
+assert(math.abs(math.toRadians(180.0) - pi) < 0.001, "toRadians should convert degrees to radians");
+assert(math.abs(math.toDegrees(pi) - 180.0) < 0.001, "toDegrees should convert radians to degrees");
+assert(math.abs(math.sin(0.0) - 0.0) < 0.001, "sin(0) should be near zero");
+assert(math.abs(math.sin(pi / 2.0) - 1.0) < 0.001, "sin(pi/2) should be near one");
+assert(math.abs(math.cos(0.0) - 1.0) < 0.001, "cos(0) should be near one");
+assert(math.abs(math.cos(pi) + 1.0) < 0.01, "cos(pi) should be near minus one");
+assert(math.abs(math.tan(0.0) - 0.0) < 0.001, "tan(0) should be near zero");
+
+assert(math.sum(1, 2, 3, 4) == 10, "sum should add all values");
+assert(math.mean(1, 2, 3, 4) == 2, "mean should return arithmetic average");
+assert(math.max(8, 3) == 8, "max should return larger value");
+assert(math.min(8, 3) == 3, "min should return smaller value");
+assert(math.abs(-42) == 42, "abs should return non-negative magnitude");
+
+println("math: all tests passed");

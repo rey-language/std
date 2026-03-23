@@ -1,0 +1,33 @@
+export pub func sum(nums: ...int) {
+    var total = 0;
+    for n in nums {
+        total = total + n;
+    }
+    return total;
+}
+
+export pub func mean(nums: ...int) {
+    if len(nums) == 0 {
+        return 0;
+    }
+    var total = 0;
+    for n in nums {
+        total = total + n;
+    }
+    return total / len(nums);
+}
+
+export pub func max(a, b) {
+    if a > b { return a; }
+    return b;
+}
+
+export pub func min(a, b) {
+    if a < b { return a; }
+    return b;
+}
+
+export pub func abs(n) {
+    if n < 0 { return -n; }
+    return n;
+}
