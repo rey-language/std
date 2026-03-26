@@ -1,0 +1,18 @@
+// Process Module
+// Pure Rey wrapper around native process builtins
+
+pub func args(): Any {
+    return args();
+}
+
+pub func exit(code: int): Void {
+    exit(code);
+}
+
+pub func env(key: String): Any {
+    return getEnv(key);
+}
+
+pub func run(cmd: String): Any {
+    return exec(cmd);
+}

@@ -1,0 +1,30 @@
+// File System Module
+// Pure Rey wrapper around native fs builtins
+
+pub func read(path: String): Any {
+    return readFile(path);
+}
+
+pub func write(path: String, content: String): Any {
+    return writeFile(path, content);
+}
+
+pub func append(path: String, content: String): Any {
+    return appendFile(path, content);
+}
+
+pub func exists(path: String): bool {
+    return fileExists(path);
+}
+
+pub func remove(path: String): Any {
+    return deleteFile(path);
+}
+
+pub func mkdir(path: String): Any {
+    return mkdir(path);
+}
+
+pub func list(path: String): Any {
+    return listDir(path);
+}

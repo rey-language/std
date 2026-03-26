@@ -1,0 +1,99 @@
+// Collections Module
+// Pure Rey collection utilities
+
+pub func range(start: int, end: int): Vec<int> {
+    var result = Vec.new();
+    var i = start;
+    loop {
+        if i >= end {
+            break;
+        }
+        result.push(i);
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func zip(a: Vec<Any>, b: Vec<Any>): Vec<Vec<Any>> {
+    var result = Vec.new();
+    var len = a.len();
+    if b.len() < len {
+        len = b.len();
+    }
+    var i = 0;
+    loop {
+        if i >= len {
+            break;
+        }
+        var pair = Vec.new();
+        pair.push(a[i]);
+        pair.push(b[i]);
+        result.push(pair);
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func flatten(nested: Vec<Vec<Any>>): Vec<Any> {
+    var result = Vec.new();
+    var i = 0;
+    loop {
+        if i >= nested.len() {
+            break;
+        }
+        var inner = nested[i];
+        var j = 0;
+        loop {
+            if j >= inner.len() {
+                break;
+            }
+            result.push(inner[j]);
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func unique(arr: Vec<Any>): Vec<Any> {
+    var result = Vec.new();
+    var i = 0;
+    loop {
+        if i >= arr.len() {
+            break;
+        }
+        var item = arr[i];
+        var found = false;
+        var j = 0;
+        loop {
+            if j >= result.len() {
+                break;
+            }
+            if result[j] == item {
+                found = true;
+                break;
+            }
+            j = j + 1;
+        }
+        if !found {
+            result.push(item);
+        }
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func groupBy(arr: Vec<Any>, lambda: Function): HashMap<Any, Any> {
+    var result = HashMap.new();
+    var i = 0;
+    loop {
+        if i >= arr.len() {
+            break;
+        }
+        var item = arr[i];
+        var key = lambda([item]);
+        result.set(key, item);
+        i = i + 1;
+    }
+    return result;
+}

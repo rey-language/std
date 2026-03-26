@@ -1,0 +1,95 @@
+// IO Module
+// Colored output and terminal utilities
+
+pub func printRed(msg: String): Void {
+    println("\x1b[31m{msg}\x1b[0m");
+}
+
+pub func printGreen(msg: String): Void {
+    println("\x1b[32m{msg}\x1b[0m");
+}
+
+pub func printYellow(msg: String): Void {
+    println("\x1b[33m{msg}\x1b[0m");
+}
+
+pub func printBlue(msg: String): Void {
+    println("\x1b[34m{msg}\x1b[0m");
+}
+
+pub func printBold(msg: String): Void {
+    println("\x1b[1m{msg}\x1b[0m");
+}
+
+pub func clear(): Void {
+    println("\x1b[2J\x1b[H");
+}
+
+pub func printTable(headers: Vec<String>, rows: Vec<Vec<String>>): Void {
+    var colWidths = Vec.new();
+    var i = 0;
+    loop {
+        if i >= headers.len() {
+            break;
+        }
+        var width = headers[i].len();
+        var j = 0;
+        loop {
+            if j >= rows.len() {
+                break;
+            }
+            var rowLen = rows[j][i].len();
+            if rowLen > width {
+                width = rowLen;
+            }
+            j = j + 1;
+        }
+        colWidths.push(width);
+        i = i + 1;
+    }
+    
+    var sep = "";
+    var k = 0;
+    loop {
+        if k >= colWidths.len() {
+            break;
+        }
+        sep = sep + "+" + "-".repeat(colWidths[k] + 2);
+        k = k + 1;
+    }
+    sep = sep + "+";
+    println(sep);
+    
+    var headerStr = "|";
+    var h = 0;
+    loop {
+        if h >= headers.len() {
+            break;
+        }
+        var pad = colWidths[h] - headers[h].len();
+        headerStr = headerStr + " " + headers[h] + " ".repeat(pad + 1) + "|";
+        h = h + 1;
+    }
+    println(headerStr);
+    println(sep);
+    
+    var r = 0;
+    loop {
+        if r >= rows.len() {
+            break;
+        }
+        var rowStr = "|";
+        var c = 0;
+        loop {
+            if c >= rows[r].len() {
+                break;
+            }
+            var pad = colWidths[c] - rows[r][c].len();
+            rowStr = rowStr + " " + rows[r][c] + " ".repeat(pad + 1) + "|";
+            c = c + 1;
+        }
+        println(rowStr);
+        r = r + 1;
+    }
+    println(sep);
+}

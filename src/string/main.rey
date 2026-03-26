@@ -1,0 +1,317 @@
+// String Utilities Module
+// Pure Rey string manipulation functions
+
+pub func trim(s: String): String {
+    var start = 0;
+    var end = s.len() - 1;
+    var i = 0;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var c = s[i];
+        if c == " " || c == "\n" || c == "\t" || c == "\r" {
+            start = start + 1;
+        } else {
+            break;
+        }
+        i = i + 1;
+    }
+    i = s.len() - 1;
+    loop {
+        if i < 0 {
+            break;
+        }
+        var c = s[i];
+        if c == " " || c == "\n" || c == "\t" || c == "\r" {
+            end = end - 1;
+        } else {
+            break;
+        }
+        i = i - 1;
+    }
+    if start > end {
+        return "";
+    }
+    var result = "";
+    var j = start;
+    loop {
+        if j > end {
+            break;
+        }
+        result = result + s[j];
+        j = j + 1;
+    }
+    return result;
+}
+
+pub func startsWith(s: String, prefix: String): bool {
+    if prefix.len() > s.len() {
+        return false;
+    }
+    var i = 0;
+    loop {
+        if i >= prefix.len() {
+            break;
+        }
+        if s[i] != prefix[i] {
+            return false;
+        }
+        i = i + 1;
+    }
+    return true;
+}
+
+pub func endsWith(s: String, suffix: String): bool {
+    if suffix.len() > s.len() {
+        return false;
+    }
+    var offset = s.len() - suffix.len();
+    var i = 0;
+    loop {
+        if i >= suffix.len() {
+            break;
+        }
+        if s[offset + i] != suffix[i] {
+            return false;
+        }
+        i = i + 1;
+    }
+    return true;
+}
+
+pub func replace(s: String, from: String, to: String): String {
+    var result = "";
+    var i = 0;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var found = true;
+        var j = 0;
+        loop {
+            if j >= from.len() {
+                break;
+            }
+            if i + j >= s.len() {
+                found = false;
+                break;
+            }
+            if s[i + j] != from[j] {
+                found = false;
+                break;
+            }
+            j = j + 1;
+        }
+        if found && from.len() > 0 {
+            result = result + to;
+            i = i + from.len();
+        } else {
+            result = result + s[i];
+            i = i + 1;
+        }
+    }
+    return result;
+}
+
+pub func slice(s: String, start: int, end: int): String {
+    if start < 0 {
+        start = 0;
+    }
+    if start >= s.len() {
+        return "";
+    }
+    if end > s.len() {
+        end = s.len();
+    }
+    if end <= start {
+        return "";
+    }
+    var result = "";
+    var i = start;
+    loop {
+        if i >= end {
+            break;
+        }
+        result = result + s[i];
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func padLeft(s: String, width: int, char: String): String {
+    var result = s;
+    var i = s.len();
+    loop {
+        if i >= width {
+            break;
+        }
+        result = char + result;
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func padRight(s: String, width: int, char: String): String {
+    var result = s;
+    var i = s.len();
+    loop {
+        if i >= width {
+            break;
+        }
+        result = result + char;
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func repeat(s: String, n: int): String {
+    var result = "";
+    var i = 0;
+    loop {
+        if i >= n {
+            break;
+        }
+        result = result + s;
+        i = i + 1;
+    }
+    return result;
+}
+
+pub func indexOf(s: String, sub: String): int {
+    if sub.len() > s.len() {
+        return -1;
+    }
+    var i = 0;
+    loop {
+        if i + sub.len() > s.len() {
+            break;
+        }
+        var found = true;
+        var j = 0;
+        loop {
+            if j >= sub.len() {
+                break;
+            }
+            if s[i + j] != sub[j] {
+                found = false;
+                break;
+            }
+            j = j + 1;
+        }
+        if found {
+            return i;
+        }
+        i = i + 1;
+    }
+    return -1;
+}
+
+pub func parseInt(s: String): Any {
+    var isNegative = false;
+    var start = 0;
+    var i = 0;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        if s[i] == "-" {
+            isNegative = true;
+            start = i + 1;
+            break;
+        }
+        if s[i] != " " {
+            start = i;
+            break;
+        }
+        i = i + 1;
+    }
+    var result = 0;
+    var valid = false;
+    i = start;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var c = s[i];
+        if c >= "0" && c <= "9" {
+            result = result * 10 + (c.hash() - 48);
+            valid = true;
+        } else {
+            break;
+        }
+        i = i + 1;
+    }
+    if valid {
+        if isNegative {
+            return Option.Some(0 - result);
+        }
+        return Option.Some(result);
+    }
+    return Option.None;
+}
+
+pub func parseFloat(s: String): Any {
+    var hasDot = false;
+    var hasExp = false;
+    var isNegative = false;
+    var start = 0;
+    var i = 0;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var c = s[i];
+        if c == "-" {
+            isNegative = true;
+            start = i + 1;
+            break;
+        }
+        if c != " " {
+            start = i;
+            break;
+        }
+        i = i + 1;
+    }
+    var intPart = 0;
+    var i = start;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var c = s[i];
+        if c == "." {
+            hasDot = true;
+            i = i + 1;
+            break;
+        }
+        if c >= "0" && c <= "9" {
+            intPart = intPart * 10 + (c.hash() - 48);
+        }
+        i = i + 1;
+    }
+    if !hasDot {
+        if isNegative {
+            return Option.Some(0.0 - (intPart as float));
+        }
+        return Option.Some(intPart as float);
+    }
+    var decPart = 0;
+    var decMult = 0.1;
+    loop {
+        if i >= s.len() {
+            break;
+        }
+        var c = s[i];
+        if c >= "0" && c <= "9" {
+            decPart = decPart + ((c.hash() - 48) as float) * decMult;
+            decMult = decMult * 0.1;
+        }
+        i = i + 1;
+    }
+    var result = (intPart as float) + decPart;
+    if isNegative {
+        result = 0.0 - result;
+    }
+    return Option.Some(result);
+}
